@@ -3,19 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- UNTUK TAMPILAN HP -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TPQ AL-MAIDAH KARANGSONO</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    
-    input, select, button {
-    width: 100% !important;  /* TAMBAH INI */
-    padding: 12px;
-    margin: 10px 0;
-    }
+    input, select, button { width: 100% !important; padding: 12px; margin: 10px 0; }
     :root { --bca-primary: #003399; --bca-secondary: #0056b3; --bca-light: #e6f0ff; }
     body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%); min-height: 100vh; }
     .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 25px rgba(0, 51, 153, 0.1); }
@@ -23,186 +17,357 @@
     .input-focus:focus { border-color: var(--bca-primary); box-shadow: 0 0 0 4px rgba(0, 51, 153, 0.1); }
     .btn-bounce:active { transform: scale(0.97); }
     .loader-pro { width: 20px; height: 20px; border: 2px solid #FFF; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
+    .loader-blue { border: 2px solid #003399; border-bottom-color: transparent; }
     @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .fade-up { animation: fadeUp 0.6s ease-out forwards; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .modal-enter { animation: modalEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     @keyframes modalEnter { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    .header-tabs button { margin: 0 !important; }
   </style>
 </head>
 <body class="flex flex-col">
-  <div style="max-width: 600px; margin: 0 auto; padding: 15px;">
-  <div class="bca-gradient pt-12 pb-20 px-6 rounded-b-[3rem] shadow-2xl relative overflow-hidden">
-    <div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
-    <div class="absolute -left-5 bottom-0 w-24 h-24 bg-white opacity-5 rounded-full"></div>
-    <div class="relative z-10 text-center">
-      <h1 class="text-2xl font-extrabold text-white tracking-[0.2em] uppercase mb-1">AL-MAIDAH</h1>
-      <div class="flex items-center justify-center gap-2">
-        <span class="h-px w-8 bg-blue-300 opacity-50"></span>
-        <p class="text-[10px] text-blue-100 font-semibold tracking-widest uppercase opacity-80"> mencetak generasi berakhlak mulia, cinta Al-Qur'an, dan beriman.</p>
-        <span class="h-px w-8 bg-blue-300 opacity-50"></span>
-      </div>
-    </div>
-  </div>
-  <main class="flex-grow px-6 -mt-12 relative z-20">
-    <div class="glass-card rounded-3xl p-8 max-w-md mx-auto fade-up">
-      <div class="flex items-center gap-3 mb-8 border-b border-gray-100 pb-4">
-        <div class="p-2 bg-blue-50 rounded-lg">
-          <i data-lucide="credit-card" class="w-5 h-5 text-[#003399]"></i>
+  <div style="max-width: 600px; margin: 0 auto; padding: 15px; width: 100%;">
+    
+    <header class="flex items-center justify-between mb-5 px-2 fade-up">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 bca-gradient rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 text-white">
+          <i data-lucide="book-open" class="w-6 h-6"></i>
         </div>
         <div>
-          <h2 class="text-gray-800 font-bold">PEMBUKUAN WISUDA, TPQ AL-MAIDAH</h2>
-          <p class="text-[10px] text-gray-400">Dusun Krajan, Karangsono, Bangsalsari, Jember</p>
-          </div>
-          </div>
-          <form id="bcaForm" onsubmit="handleSubmit(event)" class="space-y-6">
-        
-            <div class="space-y-2">
-            <label class="text-xs font-bold text-gray-500 ml-1 uppercase tracking-wider">PENGELUARAN UNTUK</label>
-            <div class="relative">
-            <input type="text" id="nama" placeholder="Keterangan Pengeluaran" class="w-full bg-gray-50 px-4 py-4 rounded-2xl border border-transparent input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 uppercase" required>
-            </div>
-            </div>
-        
-            <div class="space-y-2">
-            <label class="text-xs font-bold text-gray-500 ml-1 uppercase tracking-wider">Harga</label>
-            <div class="relative">
-            <input type="number" id="noRek" placeholder="Contoh: 100.000" class="w-full bg-gray-50 px-4 py-4 rounded-2xl border border-transparent input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300" required>
-            </div>
+          <h1 class="font-extrabold text-gray-800 text-sm leading-tight tracking-wide">TPQ AL-MAIDAH</h1>
+          <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Sistem Administrasi</p>
+        </div>
+      </div>
+    </header>
 
-            <div class="space-y-2">
-            <label class="text-xs font-bold text-gray-500 ml-1 uppercase tracking-wider">Satuan</label>
-            <div class="flex gap-3">
-            <!-- QTY (Kiri) -->
-            <div class="relative w-1/3">
-            <input 
-            type="number" 
-            id="qty" 
-            placeholder="Qty" 
-            min="1"
-            class="w-full bg-gray-50 px-4 py-4 rounded-2xl border border-transparent input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300"
-            required>
+    <div class="flex bg-white rounded-2xl p-1.5 shadow-sm mb-6 border border-gray-100 header-tabs fade-up">
+      <button id="btn-input" onclick="switchTab('input')" class="flex-1 py-2.5 text-xs font-bold bg-[#e6f0ff] text-[#003399] rounded-xl transition-all shadow-sm">Input Data</button>
+      <button id="btn-riwayat" onclick="switchTab('riwayat')" class="flex-1 py-2.5 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Riwayat</button>
+      <button id="btn-laporan" onclick="switchTab('laporan')" class="flex-1 py-2.5 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Laporan</button>
+    </div>
+
+    <div class="bca-gradient pt-10 pb-20 px-6 rounded-[2.5rem] shadow-2xl relative overflow-hidden fade-up">
+      <div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+      <div class="absolute -left-5 bottom-0 w-24 h-24 bg-white opacity-5 rounded-full"></div>
+      <div class="relative z-10 text-center">
+        <h2 class="text-xl font-extrabold text-white tracking-[0.2em] uppercase mb-1">WISUDA SANTRI</h2>
+        <div class="flex items-center justify-center gap-2">
+          <span class="h-px w-8 bg-blue-300 opacity-50"></span>
+          <p class="text-[10px] text-blue-100 font-semibold tracking-widest uppercase opacity-90">Mencetak Generasi Berakhlak Mulia</p>
+          <span class="h-px w-8 bg-blue-300 opacity-50"></span>
+        </div>
+      </div>
+    </div>
+
+    <main class="flex-grow px-4 -mt-12 relative z-20">
+      
+      <div id="tab-input" class="tab-content block fade-up">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto">
+          <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+            <div class="p-2 bg-blue-50 rounded-lg"><i data-lucide="wallet" class="w-5 h-5 text-[#003399]"></i></div>
+            <div>
+              <h2 class="text-gray-800 font-bold text-sm sm:text-base">FORM PENGELUARAN</h2>
+              <p class="text-[10px] text-gray-400">Dusun Krajan, Karangsono, Jember</p>
             </div>
-            <!-- Satuan (Kanan) -->
-            <div class="relative w-2/3">
-            <select 
-            id="harga" 
-            class="w-full bg-gray-50 px-4 py-4 rounded-2xl border border-transparent input-focus outline-none transition-all text-gray-700 font-medium appearance-none"
-            required >
-              <option value="" disabled selected>Pilih Satuan</option>
-              <option value="Paket Unit">Paket Unit</option>
-              <option value="Kg">Kg</option>
-              <option value="Pcs">Pcs</option>
-              <option value="Liter">Liter</option>
-              <option value="Kresek">Kresek</option>
-              <option value="Kaleng">Kaleng</option>
-              <option value="Dus">Dus</option>
-              <option value="Box">Box</option>
-              <option value="Buah">Buah</option>
-              <option value="Pack">Pack</option>              
-              <option value="custom">Lainnya (Kustom)</option>
+          </div>
+          <form id="bcaForm" onsubmit="handleSubmit(event)" class="space-y-4">
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Keterangan Pengeluaran</label>
+              <input type="text" id="nama" placeholder="Contoh: Beli Snack" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 uppercase text-sm" required>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Total Harga (Rp)</label>
+              <input type="number" id="noRek" placeholder="Contoh: 100000" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 text-sm" required>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Jumlah & Satuan</label>
+              <div class="flex gap-3">
+                <div class="relative w-1/3">
+                  <input type="number" id="qty" placeholder="Qty" min="1" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 text-sm" required>
+                </div>
+                <div class="relative w-2/3">
+                  <select id="harga" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium appearance-none text-sm" required>
+                    <option value="" disabled selected>Pilih Satuan</option>
+                    <option value="Paket Unit">Paket Unit</option><option value="Kg">Kg</option><option value="Pcs">Pcs</option><option value="Liter">Liter</option><option value="Kresek">Kresek</option><option value="Kaleng">Kaleng</option><option value="Dus">Dus</option><option value="Box">Box</option><option value="Buah">Buah</option><option value="Pack">Pack</option><option value="custom">Lainnya</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Kategori Pengeluaran</label>
+              <select id="jenis" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium text-sm appearance-none" required>
+                <option value="" disabled selected>Pilih Kategori</option>
+                <option value="Muballigh">Muballigh</option><option value="Konsumsi">Konsumsi</option><option value="Sound System">Sound System</option><option value="Terop">Terop</option><option value="Dekorasi">Dekorasi</option><option value="Dokumentasi">Dokumentasi</option><option value="Rokok">Rokok</option><option value="Drumband">Drumband</option><option value="Undangan">Undangan</option><option value="Hadrah">Hadrah</option><option value="Bengsin">Bensin</option><option value="Air Minum">Air Minum</option><option value="Snack">Snack</option><option value="Kirap">Kirap</option><option value="custom">Lainnya</option>
               </select>
             </div>
+            <button type="submit" id="btnSubmit" class="w-full mt-4 mx-auto bca-gradient text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-blue-200 flex items-center justify-center gap-3 transition-all btn-bounce hover:brightness-110">
+              <span id="btnText" class="flex items-center gap-2">Simpan Data <i data-lucide="save" class="w-4 h-4"></i></span>
+              <div id="loading" class="hidden flex items-center gap-2"><span class="loader-pro"></span><span class="text-sm">Menyimpan...</span></div>
+            </button>
+          </form>
+          <div id="statusMsg" class="mt-4 p-4 rounded-2xl text-sm font-medium text-center hidden transition-all"></div>
+        </div>
+      </div>
+
+      <div id="tab-riwayat" class="tab-content hidden fade-up">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto">
+          <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-blue-50 rounded-lg"><i data-lucide="history" class="w-5 h-5 text-[#003399]"></i></div>
+              <div>
+                <h2 class="text-gray-800 font-bold text-sm sm:text-base">RIWAYAT TRANSAKSI</h2>
+                <p class="text-[10px] text-gray-400">20 Transaksi Terakhir</p>
+              </div>
             </div>
+            <button onclick="fetchRiwayat()" class="w-auto px-3 py-2 m-0 bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-all border border-gray-100">
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-gray-600"></i>
+            </button>
+          </div>
+          <div id="riwayat-loading" class="hidden flex-col items-center justify-center py-8">
+            <span class="loader-pro loader-blue mb-3"></span>
+            <p class="text-xs text-gray-500 font-medium">Memuat data dari database...</p>
+          </div>
+          <div id="riwayat-list" class="space-y-3 overflow-y-auto max-h-[400px] pr-2"></div>
+        </div>
+      </div>
+
+      <div id="tab-laporan" class="tab-content hidden fade-up">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto">
+          <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-blue-50 rounded-lg"><i data-lucide="pie-chart" class="w-5 h-5 text-[#003399]"></i></div>
+              <div>
+                <h2 class="text-gray-800 font-bold text-sm sm:text-base">RINGKASAN LAPORAN</h2>
+                <p class="text-[10px] text-gray-400">Akumulasi Pengeluaran</p>
+              </div>
+            </div>
+            <button onclick="fetchLaporan()" class="w-auto px-3 py-2 m-0 bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-all border border-gray-100">
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-gray-600"></i>
+            </button>
+          </div>
+          
+          <div id="laporan-loading" class="hidden flex-col items-center justify-center py-8">
+            <span class="loader-pro loader-blue mb-3"></span>
+            <p class="text-xs text-gray-500 font-medium">Menghitung data laporan...</p>
+          </div>
+
+          <div id="laporan-content" class="space-y-5 hidden">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-blue-50 rounded-2xl p-4 border border-blue-100">
+                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Pengeluaran</p>
+                <h3 id="lap-total" class="text-base font-extrabold text-[#003399] break-words">Rp 0</h3>
+              </div>
+              <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Item</p>
+                <h3 id="lap-count" class="text-lg font-extrabold text-gray-800">0</h3>
+              </div>
             </div>
             
-            <div class="space-y-2">
-            <label class="text-xs font-bold text-gray-500 ml-1 uppercase tracking-wider">Jenis Pengeluaran</label>
-            <div class="relative">
-            <select 
-            id="jenis" 
-            class="w-full bg-gray-50 px-4 py-4 rounded-2xl border border-transparent input-focus outline-none transition-all text-gray-700 font-medium"
-            required
-            >
-            <option value="" disabled selected>Pilih Kategori</option>
-            <option value="Muballigh">Muballigh</option>
-            <option value="Konsumsi">Konsumsi</option>
-            <option value="Sound System">Sound System</option>
-            <option value="Terop">Terop</option>
-            <option value="Dekorasi">Dekorasi</option>
-            <option value="Dokumentasi">Dokumentasi</option>
-            <option value="Rokok">Rokok</option>
-            <option value="Drumband">Drumband</option>
-            <option value="Undangan">Undangan</option>
-            <option value="Hadrah">Hadrah</option>
-            <option value="Bengsin">Bengsin</option>
-            <option value="Air Minum">Air Minum</option>
-            <option value="Snack">Snack</option>
-            <option value="Kirap">Kirap</option>
-            <option value="custom">Lainnya (Kustom)</option>
-            </select>
-            </div>
-            </div>
+            <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm mt-4">
+              <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3 text-center">Distribusi Kategori</p>
+              <div class="relative h-48 w-full">
+                <canvas id="laporanChart"></canvas>
+              </div>
             </div>
 
-            <button type="submit" id="btnSubmit" class="w-full mx-auto bca-gradient text-white font-bold py-5 px-8 rounded-2xl shadow-xl shadow-blue-200 flex items-center justify-center gap-3 transition-all btn-bounce hover:brightness-110">
-            <span id="btnText" class="flex items-center gap-2">Simpan Sekarang <i data-lucide="chevron-right" class="w-4 h-4"></i></span>
-            <div id="loading" class="hidden flex items-center gap-2"><span class="loader-pro"></span><span>Mengirim...</span></div>
-          </button>
+            <div id="laporan-kategori-list" class="space-y-2 mt-4 max-h-[300px] overflow-y-auto pr-1">
+              </div>
           </div>
-      </form>
-      <div id="statusMsg" class="mt-6 p-4 rounded-2xl text-sm font-medium text-center hidden transition-all"></div>
-    </div>
-  </main>
-  <footer class="p-8 text-center space-y-2">
-    <p class="text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase">@2026 TPQ AL-MAIDAH KARANGSONO</p>
-    <div class="flex justify-center gap-4 opacity-30"><i data-lucide="shield-check" class="w-4 h-4"></i><i data-lucide="lock" class="w-4 h-4"></i><i data-lucide="zap" class="w-4 h-4"></i></div>
-  </footer>
-  <div id="successModal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 hidden">
-    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-    <div class="relative bg-white rounded-[2.5rem] p-10 max-w-xs w-full text-center shadow-2xl modal-enter">
-      <div class="w-20 h-20 bca-gradient rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-200">
-        <i data-lucide="check" class="text-white w-10 h-10 stroke-[3]"></i>
+
+        </div>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2 leading-tight">Terima kasih</h3>
-      <p class="text-gray-500 text-sm leading-relaxed mb-8">Data anda tersimpan dengan aman</p>
-      <button onclick="closeModal()" class="w-full py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-2xl transition-all btn-bounce">Tutup</button>
+
+    </main>
+
+    <footer class="p-8 text-center space-y-3 mt-4">
+      <p class="text-[10px] font-bold text-gray-400 tracking-[0.2em] uppercase">©2026 TPQ AL-MAIDAH KARANGSONO</p>
+    </footer>
+
+    <div id="successModal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 hidden">
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+      <div class="relative bg-white rounded-[2.5rem] p-10 max-w-xs w-full text-center shadow-2xl modal-enter">
+        <div class="w-20 h-20 bca-gradient rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-200">
+          <i data-lucide="check" class="text-white w-10 h-10 stroke-[3]"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2 leading-tight">Berhasil!</h3>
+        <p class="text-gray-500 text-sm leading-relaxed mb-8">Data pengeluaran berhasil disimpan.</p>
+        <button onclick="closeModal()" class="w-full py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-2xl transition-all btn-bounce">Selesai</button>
+      </div>
     </div>
-  </div>
-  <script>
-    lucide.createIcons();
-    function handleSubmit(e) {
-      e.preventDefault();
-      const btnSubmit = document.getElementById('btnSubmit');
-      const btnText = document.getElementById('btnText');
-      const loading = document.getElementById('loading');
-      const statusMsg = document.getElementById('statusMsg');
-      const payload = { noRek: document.getElementById('noRek').value, nama: document.getElementById('nama').value, harga: document.getElementById('harga').value,qty: document.getElementById('qty').value,jenis: document.getElementById('jenis').value };
-      btnSubmit.disabled = true;
-      btnText.classList.add('hidden');
-      loading.classList.remove('hidden');
-      statusMsg.classList.add('hidden');
-      google.script.run.withSuccessHandler((res) => {
-        btnSubmit.disabled = false;
-        btnText.classList.remove('hidden');
-        loading.classList.add('hidden');
-        if (res.status === 'success') { openModal(); document.getElementById('bcaForm').reset(); if (navigator.vibrate) navigator.vibrate([50, 30, 50]); }
-        else { showStatus('Gagal: ' + res.message, 'bg-red-50 text-red-600 border border-red-100'); }
-      }).withFailureHandler((err) => {
-        btnSubmit.disabled = false;
-        btnText.classList.remove('hidden');
-        loading.classList.add('hidden');
-        showStatus('Error Sistem: ' + err, 'bg-red-50 text-red-600 border border-red-100');
-      }).simpanData(payload);
-    }
-    function showStatus(msg, classes) {
-      const statusMsg = document.getElementById('statusMsg');
-      statusMsg.innerText = msg;
-      statusMsg.className = `mt-6 p-4 rounded-2xl text-sm font-medium text-center fade-up ${classes}`;
-      statusMsg.classList.remove('hidden');
-    }
-    function openModal() {
-      const modal = document.getElementById('successModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-    function closeModal() {
-      const modal = document.getElementById('successModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-  </script>
+
+    <script>
+      lucide.createIcons();
+      let myChart = null; 
+
+      function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => {
+          tab.classList.add('hidden'); tab.classList.remove('block');
+        });
+        document.getElementById('tab-' + tabId).classList.remove('hidden');
+        document.getElementById('tab-' + tabId).classList.add('block');
+
+        ['input', 'riwayat', 'laporan'].forEach(t => {
+          document.getElementById('btn-' + t).className = "flex-1 py-2.5 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all";
+        });
+        document.getElementById('btn-' + tabId).className = "flex-1 py-2.5 text-xs font-bold bg-[#e6f0ff] text-[#003399] rounded-xl transition-all shadow-sm";
+
+        if (tabId === 'riwayat') fetchRiwayat();
+        if (tabId === 'laporan') fetchLaporan();
+      }
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        const btnSubmit = document.getElementById('btnSubmit');
+        const btnText = document.getElementById('btnText');
+        const loading = document.getElementById('loading');
+        
+        const payload = { 
+            noRek: document.getElementById('noRek').value, 
+            nama: document.getElementById('nama').value, 
+            harga: document.getElementById('harga').value,
+            qty: document.getElementById('qty').value,
+            jenis: document.getElementById('jenis').value 
+        };
+        
+        btnSubmit.disabled = true; btnText.classList.add('hidden'); loading.classList.remove('hidden');
+        
+        google.script.run.withSuccessHandler((res) => {
+          btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
+          if (res.status === 'success') { 
+              openModal(); document.getElementById('bcaForm').reset(); 
+              if (navigator.vibrate) navigator.vibrate([50, 30, 50]); 
+          } else { alert('Gagal: ' + res.message); }
+        }).withFailureHandler((err) => {
+          btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
+          alert('Error: ' + err);
+        }).simpanData(payload);
+      }
+
+      function fetchRiwayat() {
+        const loadingEl = document.getElementById('riwayat-loading');
+        const listEl = document.getElementById('riwayat-list');
+        loadingEl.classList.remove('hidden'); loadingEl.classList.add('flex');
+        listEl.innerHTML = ''; 
+
+        google.script.run.withSuccessHandler((res) => {
+          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
+          if (res.status === 'success') {
+            tampilkanDataRiwayat(res.data);
+            lucide.createIcons();
+          } else { listEl.innerHTML = `<p class="text-xs text-red-500 text-center py-4">Gagal memuat: ${res.message}</p>`; }
+        }).withFailureHandler((err) => {
+          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
+          listEl.innerHTML = `<p class="text-xs text-red-500 text-center py-4">Sistem Error: ${err}</p>`;
+        }).getRiwayatData();
+      }
+
+      function tampilkanDataRiwayat(dataArray) {
+        const listEl = document.getElementById('riwayat-list');
+        if (!dataArray || dataArray.length === 0) {
+          listEl.innerHTML = `<div class="text-center py-8"><p class="text-xs text-gray-500">Belum ada data pengeluaran.</p></div>`; return;
+        }
+        dataArray.forEach(item => {
+          const totalRp = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.total);
+          const card = document.createElement('div');
+          card.className = "p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-between";
+          card.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100">
+                <i data-lucide="receipt" class="w-4 h-4 text-gray-600"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-gray-800 uppercase">${item.keterangan}</h3>
+                <p class="text-[10px] text-gray-500">${item.waktu} • <span class="text-blue-600 font-semibold">${item.kategori}</span></p>
+                <p class="text-[10px] text-gray-500 font-medium">${item.qty} ${item.satuan}</p>
+              </div>
+            </div>
+            <div class="text-right"><p class="text-sm font-bold text-red-600">-${totalRp}</p></div>
+          `;
+          listEl.appendChild(card);
+        });
+      }
+
+      function fetchLaporan() {
+        const loadingEl = document.getElementById('laporan-loading');
+        const contentEl = document.getElementById('laporan-content');
+        
+        loadingEl.classList.remove('hidden'); loadingEl.classList.add('flex');
+        contentEl.classList.add('hidden');
+
+        google.script.run.withSuccessHandler((res) => {
+          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
+          if (res.status === 'success') {
+            contentEl.classList.remove('hidden');
+            renderLaporan(res.data);
+          } else { alert('Gagal memuat laporan: ' + res.message); }
+        }).withFailureHandler((err) => {
+          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
+          alert('Sistem Error: ' + err);
+        }).getLaporanData();
+      }
+
+      function renderLaporan(data) {
+        // 1. Update Teks Total
+        const totalRp = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(data.total);
+        document.getElementById('lap-total').innerText = totalRp;
+        document.getElementById('lap-count').innerText = data.count + " Trx";
+
+        // 2. Siapkan Data untuk Grafik & List
+        const colorPalette = ['#003399', '#3377ff', '#ff9900', '#33cc99', '#ffcc66', '#99bbff', '#ffaa33', '#66ddbb', '#0055cc', '#e6f0ff'];
+        
+        // Urutkan kategori dari yang terbesar ke terkecil
+        const sortedKategori = Object.entries(data.kategori).sort((a, b) => b[1] - a[1]);
+        
+        const labels = sortedKategori.map(item => item[0]);
+        const values = sortedKategori.map(item => item[1]);
+
+        // 3. Render Grafik Donat
+        const ctx = document.getElementById('laporanChart').getContext('2d');
+        if (myChart) myChart.destroy();
+        myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: values,
+              backgroundColor: colorPalette.slice(0, labels.length),
+              borderWidth: 2,
+              borderColor: '#ffffff'
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10, family: 'Inter' } } } }
+          }
+        });
+
+        // 4. Render Rincian List Kategori
+        const listKategoriEl = document.getElementById('laporan-kategori-list');
+        let htmlList = `<p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 mt-2 pl-1">Rincian Per Kategori</p>`;
+        
+        sortedKategori.forEach((item, index) => {
+          const catName = item[0];
+          const catTotal = item[1];
+          const catColor = colorPalette[index % colorPalette.length];
+          const formatTotal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(catTotal);
+          
+          htmlList += `
+            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl border border-gray-100">
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full shadow-sm" style="background-color: ${catColor};"></div>
+                <span class="text-xs font-bold text-gray-700">${catName}</span>
+              </div>
+              <span class="text-xs font-bold text-[#003399]">${formatTotal}</span>
+            </div>
+          `;
+        });
+        listKategoriEl.innerHTML = htmlList;
+      }
+
+      function openModal() { document.getElementById('successModal').classList.remove('hidden'); document.getElementById('successModal').classList.add('flex'); }
+      function closeModal() { document.getElementById('successModal').classList.add('hidden'); document.getElementById('successModal').classList.remove('flex'); }
+    </script>
   </div>
 </body>
 </html>
- 
