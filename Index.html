@@ -7,7 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     input, select, button { width: 100% !important; padding: 12px; margin: 10px 0; }
     :root { --bca-primary: #003399; --bca-secondary: #0056b3; --bca-light: #e6f0ff; }
@@ -18,12 +17,16 @@
     .btn-bounce:active { transform: scale(0.97); }
     .loader-pro { width: 20px; height: 20px; border: 2px solid #FFF; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
     .loader-blue { border: 2px solid #003399; border-bottom-color: transparent; }
+    .loader-purple { border: 2px solid #9333ea; border-bottom-color: transparent; }
     @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .fade-up { animation: fadeUp 0.6s ease-out forwards; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .modal-enter { animation: modalEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     @keyframes modalEnter { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
     .header-tabs button { margin: 0 !important; }
+    .mini-input { padding: 8px 12px !important; margin: 0 !important; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="flex flex-col">
@@ -41,10 +44,12 @@
       </div>
     </header>
 
-    <div class="flex bg-white rounded-2xl p-1.5 shadow-sm mb-6 border border-gray-100 header-tabs fade-up">
-      <button id="btn-input" onclick="switchTab('input')" class="flex-1 py-2.5 text-xs font-bold bg-[#e6f0ff] text-[#003399] rounded-xl transition-all shadow-sm">Input Data</button>
-      <button id="btn-riwayat" onclick="switchTab('riwayat')" class="flex-1 py-2.5 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Riwayat</button>
-      <button id="btn-laporan" onclick="switchTab('laporan')" class="flex-1 py-2.5 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Laporan</button>
+    <div class="flex bg-white rounded-2xl p-1.5 shadow-sm mb-6 border border-gray-100 header-tabs fade-up overflow-x-auto no-scrollbar gap-1">
+      <button id="btn-input" onclick="switchTab('input')" class="min-w-[90px] py-2.5 px-2 text-[11px] font-bold bg-[#e6f0ff] text-[#003399] rounded-xl transition-all shadow-sm">Keluar</button>
+      <button id="btn-pemasukan" onclick="switchTab('pemasukan')" class="min-w-[90px] py-2.5 px-2 text-[11px] font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Masuk</button>
+      <button id="btn-panitia" onclick="switchTab('panitia')" class="min-w-[90px] py-2.5 px-2 text-[11px] font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Panitia</button>
+      <button id="btn-riwayat" onclick="switchTab('riwayat')" class="min-w-[90px] py-2.5 px-2 text-[11px] font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Riwayat</button>
+      <button id="btn-laporan" onclick="switchTab('laporan')" class="min-w-[90px] py-2.5 px-2 text-[11px] font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all">Cetak</button>
     </div>
 
     <div class="bca-gradient pt-10 pb-20 px-6 rounded-[2.5rem] shadow-2xl relative overflow-hidden fade-up">
@@ -65,13 +70,17 @@
       <div id="tab-input" class="tab-content block fade-up">
         <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto">
           <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-            <div class="p-2 bg-blue-50 rounded-lg"><i data-lucide="wallet" class="w-5 h-5 text-[#003399]"></i></div>
+            <div class="p-2 bg-red-50 rounded-lg"><i data-lucide="wallet" class="w-5 h-5 text-red-600"></i></div>
             <div>
               <h2 class="text-gray-800 font-bold text-sm sm:text-base">FORM PENGELUARAN</h2>
-              <p class="text-[10px] text-gray-400">Dusun Krajan, Karangsono, Jember</p>
+              <p class="text-[10px] text-gray-400">Pencatatan Dana Keluar</p>
             </div>
           </div>
           <form id="bcaForm" onsubmit="handleSubmit(event)" class="space-y-4">
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Penanggung Jawab</label>
+              <input type="text" id="pjPengeluaran" placeholder="Nama Penanggung Jawab" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 uppercase text-sm" required>
+            </div>
             <div class="space-y-1">
               <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Keterangan Pengeluaran</label>
               <input type="text" id="nama" placeholder="Contoh: Beli Snack" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 uppercase text-sm" required>
@@ -88,8 +97,7 @@
                 </div>
                 <div class="relative w-2/3">
                   <select id="harga" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium appearance-none text-sm" required>
-                    <option value="" disabled selected>Pilih Satuan</option>
-                    <option value="Paket Unit">Paket Unit</option><option value="Kg">Kg</option><option value="Pcs">Pcs</option><option value="Liter">Liter</option><option value="Kresek">Kresek</option><option value="Kaleng">Kaleng</option><option value="Dus">Dus</option><option value="Box">Box</option><option value="Buah">Buah</option><option value="Pack">Pack</option><option value="custom">Lainnya</option>
+                    <option value="" disabled selected>Memuat Data...</option>
                   </select>
                 </div>
               </div>
@@ -97,16 +105,103 @@
             <div class="space-y-1">
               <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Kategori Pengeluaran</label>
               <select id="jenis" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium text-sm appearance-none" required>
-                <option value="" disabled selected>Pilih Kategori</option>
-                <option value="Muballigh">Muballigh</option><option value="Konsumsi">Konsumsi</option><option value="Sound System">Sound System</option><option value="Terop">Terop</option><option value="Dekorasi">Dekorasi</option><option value="Dokumentasi">Dokumentasi</option><option value="Rokok">Rokok</option><option value="Drumband">Drumband</option><option value="Undangan">Undangan</option><option value="Hadrah">Hadrah</option><option value="Bengsin">Bensin</option><option value="Air Minum">Air Minum</option><option value="Snack">Snack</option><option value="Kirap">Kirap</option><option value="custom">Lainnya</option>
+                <option value="" disabled selected>Memuat Data...</option>
               </select>
             </div>
             <button type="submit" id="btnSubmit" class="w-full mt-4 mx-auto bca-gradient text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-blue-200 flex items-center justify-center gap-3 transition-all btn-bounce hover:brightness-110">
-              <span id="btnText" class="flex items-center gap-2">Simpan Data <i data-lucide="save" class="w-4 h-4"></i></span>
+              <span id="btnText" class="flex items-center gap-2">Simpan Pengeluaran <i data-lucide="save" class="w-4 h-4"></i></span>
               <div id="loading" class="hidden flex items-center gap-2"><span class="loader-pro"></span><span class="text-sm">Menyimpan...</span></div>
             </button>
           </form>
-          <div id="statusMsg" class="mt-4 p-4 rounded-2xl text-sm font-medium text-center hidden transition-all"></div>
+        </div>
+      </div>
+
+      <div id="tab-pemasukan" class="tab-content hidden fade-up">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto">
+          <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+            <div class="p-2 bg-green-50 rounded-lg"><i data-lucide="arrow-down-circle" class="w-5 h-5 text-green-600"></i></div>
+            <div>
+              <h2 class="text-gray-800 font-bold text-sm sm:text-base">FORM PEMASUKAN</h2>
+              <p class="text-[10px] text-gray-400">Pencatatan Dana Masuk</p>
+            </div>
+          </div>
+          <form id="pemasukanForm" onsubmit="handlePemasukan(event)" class="space-y-4">
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Penanggung Jawab</label>
+              <input type="text" id="pjPemasukan" placeholder="Nama Penyetor / Donatur" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 uppercase text-sm" required>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Nominal (Rp)</label>
+              <input type="number" id="nominalPemasukan" placeholder="Contoh: 500000" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 text-sm" required>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Keterangan (Opsional)</label>
+              <input type="text" id="ketPemasukan" placeholder="Catatan tambahan..." class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium placeholder:text-gray-300 text-sm">
+            </div>
+            <button type="submit" id="btnSubmitPemasukan" class="w-full mt-4 mx-auto bg-green-600 text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-green-200 flex items-center justify-center gap-3 transition-all btn-bounce hover:bg-green-700">
+              <span id="btnTextPemasukan" class="flex items-center gap-2">Simpan Pemasukan <i data-lucide="save" class="w-4 h-4"></i></span>
+              <div id="loadingPemasukan" class="hidden flex items-center gap-2">
+                <span class="loader-pro" style="border-color: #fff; border-bottom-color: transparent;"></span><span class="text-sm">Menyimpan...</span>
+              </div>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div id="tab-panitia" class="tab-content hidden fade-up">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto">
+          
+          <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+            <div class="p-2 bg-purple-50 rounded-lg"><i data-lucide="users" class="w-5 h-5 text-purple-600"></i></div>
+            <div>
+              <h2 class="text-gray-800 font-bold text-sm sm:text-base">SUSUNAN PANITIA</h2>
+              <p class="text-[10px] text-gray-400">Pembagian Tugas Acara</p>
+            </div>
+          </div>
+          <form id="panitiaForm" onsubmit="handlePanitia(event)" class="space-y-4">
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Jabatan / Peran</label>
+              <select id="jabatanPanitia" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium appearance-none text-sm" required>
+                <option value="" disabled selected>Memuat Data...</option>
+              </select>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase tracking-wider">Nama Anggota</label>
+              <select id="namaAnggota" class="w-full bg-gray-50 px-4 py-3.5 rounded-2xl border border-gray-100 input-focus outline-none transition-all text-gray-700 font-medium appearance-none text-sm" required>
+                <option value="" disabled selected>Memuat Data...</option>
+              </select>
+            </div>
+            <button type="submit" id="btnSubmitPanitia" class="w-full mt-4 mx-auto bg-purple-600 text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-purple-200 flex items-center justify-center gap-3 transition-all btn-bounce hover:bg-purple-700">
+              <span id="btnTextPanitia" class="flex items-center gap-2">Simpan Panitia <i data-lucide="save" class="w-4 h-4"></i></span>
+              <div id="loadingPanitia" class="hidden flex items-center gap-2">
+                <span class="loader-pro" style="border-color: #fff; border-bottom-color: transparent;"></span><span class="text-sm">Menyimpan...</span>
+              </div>
+            </button>
+          </form>
+
+          <div class="mt-8 border-t border-gray-100 pt-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold text-gray-800">DAFTAR PANITIA</h3>
+              <button onclick="fetchPanitia()" class="w-auto px-3 py-2 m-0 bg-purple-50 hover:bg-purple-100 rounded-lg flex items-center justify-center transition-all border border-purple-100">
+                <i data-lucide="refresh-cw" class="w-4 h-4 text-purple-600"></i>
+              </button>
+            </div>
+
+            <div class="flex flex-col gap-2 mb-4 bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+              <input type="text" id="searchPanitia" oninput="delaySearchPanitia()" placeholder="🔍 Cari Nama..." class="mini-input w-full bg-gray-50 rounded-xl border border-gray-100 text-xs outline-none focus:border-purple-600 transition-all">
+              <select id="filterJabatanList" onchange="fetchPanitia()" class="mini-input w-full bg-gray-50 rounded-xl border border-gray-100 text-xs outline-none focus:border-purple-600 appearance-none">
+                <option value="">Semua Jabatan</option>
+              </select>
+            </div>
+
+            <div id="panitia-loading" class="hidden flex-col items-center justify-center py-6">
+              <span class="loader-pro loader-purple mb-3"></span>
+            </div>
+            
+            <div id="panitia-list" class="space-y-2 overflow-y-auto max-h-[300px] pr-1">
+              </div>
+          </div>
+
         </div>
       </div>
 
@@ -117,13 +212,29 @@
               <div class="p-2 bg-blue-50 rounded-lg"><i data-lucide="history" class="w-5 h-5 text-[#003399]"></i></div>
               <div>
                 <h2 class="text-gray-800 font-bold text-sm sm:text-base">RIWAYAT TRANSAKSI</h2>
-                <p class="text-[10px] text-gray-400">20 Transaksi Terakhir</p>
+                <p class="text-[10px] text-gray-400">Database Pengeluaran</p>
               </div>
             </div>
             <button onclick="fetchRiwayat()" class="w-auto px-3 py-2 m-0 bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-all border border-gray-100">
               <i data-lucide="refresh-cw" class="w-4 h-4 text-gray-600"></i>
             </button>
           </div>
+
+          <div class="flex flex-col gap-2 mb-4 bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+            <input type="text" id="searchRiwayat" oninput="delaySearch()" placeholder="🔍 Cari Keterangan atau PJ..." class="mini-input w-full bg-gray-50 rounded-xl border border-gray-100 text-xs outline-none focus:border-[#003399] transition-all">
+            <div class="flex gap-2">
+              <select id="filterKatRiwayat" onchange="fetchRiwayat()" class="mini-input w-2/3 bg-gray-50 rounded-xl border border-gray-100 text-xs outline-none focus:border-[#003399] appearance-none">
+                <option value="">Semua Kategori</option>
+              </select>
+              <select id="limitRiwayat" onchange="fetchRiwayat()" class="mini-input w-1/3 bg-gray-50 rounded-xl border border-gray-100 text-xs outline-none focus:border-[#003399] appearance-none">
+                <option value="10">10 Data</option>
+                <option value="20" selected>20 Data</option>
+                <option value="50">50 Data</option>
+                <option value="100">100 Data</option>
+              </select>
+            </div>
+          </div>
+
           <div id="riwayat-loading" class="hidden flex-col items-center justify-center py-8">
             <span class="loader-pro loader-blue mb-3"></span>
             <p class="text-xs text-gray-500 font-medium">Memuat data dari database...</p>
@@ -134,47 +245,24 @@
 
       <div id="tab-laporan" class="tab-content hidden fade-up">
         <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md mx-auto">
-          <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-4">
+          <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
             <div class="flex items-center gap-3">
-              <div class="p-2 bg-blue-50 rounded-lg"><i data-lucide="pie-chart" class="w-5 h-5 text-[#003399]"></i></div>
+              <div class="p-2 bg-blue-50 rounded-lg"><i data-lucide="printer" class="w-5 h-5 text-[#003399]"></i></div>
               <div>
-                <h2 class="text-gray-800 font-bold text-sm sm:text-base">RINGKASAN LAPORAN</h2>
-                <p class="text-[10px] text-gray-400">Akumulasi Pengeluaran</p>
+                <h2 class="text-gray-800 font-bold text-sm sm:text-base">LAPORAN & CETAK</h2>
+                <p class="text-[10px] text-gray-400">Generate LPJ Keuangan PDF</p>
               </div>
             </div>
-            <button onclick="fetchLaporan()" class="w-auto px-3 py-2 m-0 bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-center transition-all border border-gray-100">
-              <i data-lucide="refresh-cw" class="w-4 h-4 text-gray-600"></i>
+          </div>
+          <div class="text-center py-6">
+            <p class="text-xs text-gray-500 mb-6">Sistem akan menghitung Saldo Akhir dan menyusun rincian pengeluaran per kategori beserta tanda tangan kepanitiaan untuk dokumen LPJ.</p>
+            <button onclick="printLPJ()" id="btnPrint" class="w-full mt-2 mx-auto bca-gradient text-white font-bold py-4 px-8 rounded-2xl shadow-xl shadow-blue-200 flex items-center justify-center gap-3 transition-all btn-bounce hover:brightness-110">
+              <span id="btnTextPrint" class="flex items-center gap-2">CETAK PDF (LPJ) <i data-lucide="file-text" class="w-4 h-4"></i></span>
+              <div id="loadingPrint" class="hidden flex items-center gap-2">
+                <span class="loader-pro" style="border-color: #fff; border-bottom-color: transparent;"></span><span class="text-sm">Menyiapkan...</span>
+              </div>
             </button>
           </div>
-          
-          <div id="laporan-loading" class="hidden flex-col items-center justify-center py-8">
-            <span class="loader-pro loader-blue mb-3"></span>
-            <p class="text-xs text-gray-500 font-medium">Menghitung data laporan...</p>
-          </div>
-
-          <div id="laporan-content" class="space-y-5 hidden">
-            <div class="grid grid-cols-2 gap-3">
-              <div class="bg-blue-50 rounded-2xl p-4 border border-blue-100">
-                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Pengeluaran</p>
-                <h3 id="lap-total" class="text-base font-extrabold text-[#003399] break-words">Rp 0</h3>
-              </div>
-              <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Total Item</p>
-                <h3 id="lap-count" class="text-lg font-extrabold text-gray-800">0</h3>
-              </div>
-            </div>
-            
-            <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm mt-4">
-              <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3 text-center">Distribusi Kategori</p>
-              <div class="relative h-48 w-full">
-                <canvas id="laporanChart"></canvas>
-              </div>
-            </div>
-
-            <div id="laporan-kategori-list" class="space-y-2 mt-4 max-h-[300px] overflow-y-auto pr-1">
-              </div>
-          </div>
-
         </div>
       </div>
 
@@ -187,18 +275,59 @@
     <div id="successModal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 hidden">
       <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
       <div class="relative bg-white rounded-[2.5rem] p-10 max-w-xs w-full text-center shadow-2xl modal-enter">
-        <div class="w-20 h-20 bca-gradient rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-200">
+        <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-200">
           <i data-lucide="check" class="text-white w-10 h-10 stroke-[3]"></i>
         </div>
         <h3 class="text-xl font-bold text-gray-900 mb-2 leading-tight">Berhasil!</h3>
-        <p class="text-gray-500 text-sm leading-relaxed mb-8">Data pengeluaran berhasil disimpan.</p>
+        <p class="text-gray-500 text-sm leading-relaxed mb-8">Data berhasil disimpan ke database.</p>
         <button onclick="closeModal()" class="w-full py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-2xl transition-all btn-bounce">Selesai</button>
       </div>
     </div>
 
     <script>
       lucide.createIcons();
-      let myChart = null; 
+
+      // Pemuatan Dropdown 
+      function loadDropdowns() {
+        google.script.run.withSuccessHandler((res) => {
+          if(res.status === 'success') {
+            const elSatuan = document.getElementById('harga');
+            const elKategori = document.getElementById('jenis');
+            const elFilterKat = document.getElementById('filterKatRiwayat');
+            
+            elSatuan.innerHTML = '<option value="" disabled selected>Pilih Satuan</option>';
+            res.satuan.forEach(s => elSatuan.innerHTML += `<option value="${s}">${s}</option>`);
+            
+            elKategori.innerHTML = '<option value="" disabled selected>Pilih Kategori</option>';
+            elFilterKat.innerHTML = '<option value="">Semua Kategori</option>';
+            res.kategori.forEach(k => {
+               elKategori.innerHTML += `<option value="${k}">${k}</option>`;
+               elFilterKat.innerHTML += `<option value="${k}">${k}</option>`;
+            });
+          }
+        }).getDropdownData();
+
+        // Tarik data nama dan jabatan untuk Form & Filter Panitia
+        google.script.run.withSuccessHandler((res) => {
+          if(res.status === 'success') {
+            const elNama = document.getElementById('namaAnggota');
+            const elJabatan = document.getElementById('jabatanPanitia');
+            const elFilterJabatan = document.getElementById('filterJabatanList');
+            
+            elNama.innerHTML = '<option value="" disabled selected>Pilih Nama Anggota</option>';
+            res.nama.forEach(n => elNama.innerHTML += `<option value="${n}">${n}</option>`);
+            
+            elJabatan.innerHTML = '<option value="" disabled selected>Pilih Jabatan / Peran</option>';
+            elFilterJabatan.innerHTML = '<option value="">Semua Jabatan</option>';
+            res.jabatan.forEach(j => {
+               elJabatan.innerHTML += `<option value="${j}">${j}</option>`;
+               elFilterJabatan.innerHTML += `<option value="${j}">${j}</option>`;
+            });
+          }
+        }).getDataPanitia();
+      }
+      
+      loadDropdowns(); 
 
       function switchTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(tab => {
@@ -207,13 +336,13 @@
         document.getElementById('tab-' + tabId).classList.remove('hidden');
         document.getElementById('tab-' + tabId).classList.add('block');
 
-        ['input', 'riwayat', 'laporan'].forEach(t => {
-          document.getElementById('btn-' + t).className = "flex-1 py-2.5 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all";
+        ['input', 'pemasukan', 'panitia', 'riwayat', 'laporan'].forEach(t => {
+          document.getElementById('btn-' + t).className = "min-w-[90px] py-2.5 px-2 text-[11px] font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-700 rounded-xl transition-all";
         });
-        document.getElementById('btn-' + tabId).className = "flex-1 py-2.5 text-xs font-bold bg-[#e6f0ff] text-[#003399] rounded-xl transition-all shadow-sm";
+        document.getElementById('btn-' + tabId).className = "min-w-[90px] py-2.5 px-2 text-[11px] font-bold bg-[#e6f0ff] text-[#003399] rounded-xl transition-all shadow-sm";
 
         if (tabId === 'riwayat') fetchRiwayat();
-        if (tabId === 'laporan') fetchLaporan();
+        if (tabId === 'panitia') fetchPanitia(); // Otomatis refresh list panitia
       }
 
       function handleSubmit(e) {
@@ -221,34 +350,139 @@
         const btnSubmit = document.getElementById('btnSubmit');
         const btnText = document.getElementById('btnText');
         const loading = document.getElementById('loading');
-        
         const payload = { 
+            pj: document.getElementById('pjPengeluaran').value,
             noRek: document.getElementById('noRek').value, 
             nama: document.getElementById('nama').value, 
             harga: document.getElementById('harga').value,
             qty: document.getElementById('qty').value,
             jenis: document.getElementById('jenis').value 
         };
-        
         btnSubmit.disabled = true; btnText.classList.add('hidden'); loading.classList.remove('hidden');
-        
         google.script.run.withSuccessHandler((res) => {
           btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
-          if (res.status === 'success') { 
-              openModal(); document.getElementById('bcaForm').reset(); 
-              if (navigator.vibrate) navigator.vibrate([50, 30, 50]); 
-          } else { alert('Gagal: ' + res.message); }
+          if (res.status === 'success') { openModal(); document.getElementById('bcaForm').reset(); } 
+          else { alert('Gagal: ' + res.message); }
         }).withFailureHandler((err) => {
           btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
           alert('Error: ' + err);
         }).simpanData(payload);
       }
 
+      function handlePemasukan(e) {
+        e.preventDefault();
+        const btnSubmit = document.getElementById('btnSubmitPemasukan');
+        const btnText = document.getElementById('btnTextPemasukan');
+        const loading = document.getElementById('loadingPemasukan');
+        const payload = { 
+            pj: document.getElementById('pjPemasukan').value, 
+            nominal: document.getElementById('nominalPemasukan').value,
+            keterangan: document.getElementById('ketPemasukan').value 
+        };
+        btnSubmit.disabled = true; btnText.classList.add('hidden'); loading.classList.remove('hidden');
+        google.script.run.withSuccessHandler((res) => {
+          btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
+          if (res.status === 'success') { openModal(); document.getElementById('pemasukanForm').reset(); } 
+          else { alert('Gagal: ' + res.message); }
+        }).withFailureHandler((err) => {
+          btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
+          alert('Error: ' + err);
+        }).simpanPemasukan(payload);
+      }
+
+      function handlePanitia(e) {
+        e.preventDefault();
+        const btnSubmit = document.getElementById('btnSubmitPanitia');
+        const btnText = document.getElementById('btnTextPanitia');
+        const loading = document.getElementById('loadingPanitia');
+        const payload = { 
+            jabatan: document.getElementById('jabatanPanitia').value, 
+            nama: document.getElementById('namaAnggota').value
+        };
+        btnSubmit.disabled = true; btnText.classList.add('hidden'); loading.classList.remove('hidden');
+        google.script.run.withSuccessHandler((res) => {
+          btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
+          if (res.status === 'success') { 
+             openModal(); 
+             document.getElementById('panitiaForm').reset();
+             fetchPanitia(); // Refresh list otomatis setelah simpan
+          } 
+          else { alert('Gagal: ' + res.message); }
+        }).withFailureHandler((err) => {
+          btnSubmit.disabled = false; btnText.classList.remove('hidden'); loading.classList.add('hidden');
+          alert('Error: ' + err);
+        }).simpanSusunan(payload);
+      }
+
+      // ===== LOGIKA DAFTAR PANITIA =====
+      let searchTimerPanitia;
+      function delaySearchPanitia() {
+         clearTimeout(searchTimerPanitia);
+         searchTimerPanitia = setTimeout(() => { fetchPanitia(); }, 600); 
+      }
+
+      function fetchPanitia() {
+        const loadingEl = document.getElementById('panitia-loading');
+        const listEl = document.getElementById('panitia-list');
+        const paramSearch = document.getElementById('searchPanitia').value;
+        const paramJabatan = document.getElementById('filterJabatanList').value;
+
+        loadingEl.classList.remove('hidden'); loadingEl.classList.add('flex');
+        listEl.innerHTML = ''; 
+
+        const params = { search: paramSearch, jabatan: paramJabatan };
+
+        google.script.run.withSuccessHandler((res) => {
+          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
+          if (res.status === 'success') {
+            tampilkanDataPanitia(res.data);
+            lucide.createIcons();
+          } else { listEl.innerHTML = `<p class="text-xs text-red-500 text-center py-4">Gagal memuat: ${res.message}</p>`; }
+        }).withFailureHandler((err) => {
+          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
+          listEl.innerHTML = `<p class="text-xs text-red-500 text-center py-4">Sistem Error: ${err}</p>`;
+        }).getSusunanPanitia(params);
+      }
+
+      function tampilkanDataPanitia(dataArray) {
+        const listEl = document.getElementById('panitia-list');
+        if (!dataArray || dataArray.length === 0) {
+          listEl.innerHTML = `<div class="text-center py-6"><p class="text-xs text-gray-500">Belum ada data panitia yang terdaftar.</p></div>`; return;
+        }
+        dataArray.forEach(item => {
+          const card = document.createElement('div');
+          card.className = "flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100";
+          card.innerHTML = `
+            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center shadow-sm">
+              <i data-lucide="user" class="w-4 h-4 text-purple-600"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-gray-800">${item.nama}</h3>
+              <p class="text-[10px] text-purple-600 font-semibold uppercase tracking-wider">${item.jabatan}</p>
+            </div>
+          `;
+          listEl.appendChild(card);
+        });
+      }
+
+      // ===== LOGIKA RIWAYAT =====
+      let searchTimer;
+      function delaySearch() {
+         clearTimeout(searchTimer);
+         searchTimer = setTimeout(() => { fetchRiwayat(); }, 600); 
+      }
+
       function fetchRiwayat() {
         const loadingEl = document.getElementById('riwayat-loading');
         const listEl = document.getElementById('riwayat-list');
+        const paramSearch = document.getElementById('searchRiwayat').value;
+        const paramKategori = document.getElementById('filterKatRiwayat').value;
+        const paramLimit = document.getElementById('limitRiwayat').value;
+
         loadingEl.classList.remove('hidden'); loadingEl.classList.add('flex');
         listEl.innerHTML = ''; 
+
+        const params = { search: paramSearch, kategori: paramKategori, limit: parseInt(paramLimit) };
 
         google.script.run.withSuccessHandler((res) => {
           loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
@@ -259,13 +493,13 @@
         }).withFailureHandler((err) => {
           loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
           listEl.innerHTML = `<p class="text-xs text-red-500 text-center py-4">Sistem Error: ${err}</p>`;
-        }).getRiwayatData();
+        }).getRiwayatData(params);
       }
 
       function tampilkanDataRiwayat(dataArray) {
         const listEl = document.getElementById('riwayat-list');
         if (!dataArray || dataArray.length === 0) {
-          listEl.innerHTML = `<div class="text-center py-8"><p class="text-xs text-gray-500">Belum ada data pengeluaran.</p></div>`; return;
+          listEl.innerHTML = `<div class="text-center py-8"><p class="text-xs text-gray-500">Data tidak ditemukan.</p></div>`; return;
         }
         dataArray.forEach(item => {
           const totalRp = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.total);
@@ -273,12 +507,10 @@
           card.className = "p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-between";
           card.innerHTML = `
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100">
-                <i data-lucide="receipt" class="w-4 h-4 text-gray-600"></i>
-              </div>
+              <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100"><i data-lucide="receipt" class="w-4 h-4 text-gray-600"></i></div>
               <div>
                 <h3 class="text-sm font-bold text-gray-800 uppercase">${item.keterangan}</h3>
-                <p class="text-[10px] text-gray-500">${item.waktu} • <span class="text-blue-600 font-semibold">${item.kategori}</span></p>
+                <p class="text-[10px] text-gray-500">${item.waktu} • PJ: <span class="font-bold">${item.pj}</span> • <span class="text-blue-600 font-semibold">${item.kategori}</span></p>
                 <p class="text-[10px] text-gray-500 font-medium">${item.qty} ${item.satuan}</p>
               </div>
             </div>
@@ -288,81 +520,98 @@
         });
       }
 
-      function fetchLaporan() {
-        const loadingEl = document.getElementById('laporan-loading');
-        const contentEl = document.getElementById('laporan-content');
-        
-        loadingEl.classList.remove('hidden'); loadingEl.classList.add('flex');
-        contentEl.classList.add('hidden');
-
-        google.script.run.withSuccessHandler((res) => {
-          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
-          if (res.status === 'success') {
-            contentEl.classList.remove('hidden');
-            renderLaporan(res.data);
-          } else { alert('Gagal memuat laporan: ' + res.message); }
-        }).withFailureHandler((err) => {
-          loadingEl.classList.add('hidden'); loadingEl.classList.remove('flex');
-          alert('Sistem Error: ' + err);
-        }).getLaporanData();
+      function terbilang(angka) {
+        angka = Math.abs(angka);
+        var bilne = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
+        if (angka < 12) return bilne[angka];
+        else if (angka < 20) return terbilang(angka - 10) + " Belas";
+        else if (angka < 100) return terbilang(Math.floor(angka / 10)) + " Puluh " + terbilang(angka % 10);
+        else if (angka < 200) return "Seratus " + (terbilang(angka - 100)).toLowerCase();
+        else if (angka < 1000) return terbilang(Math.floor(angka / 100)) + " Ratus " + terbilang(angka % 100);
+        else if (angka < 2000) return "Seribu " + terbilang(angka - 1000);
+        else if (angka < 1000000) return terbilang(Math.floor(angka / 1000)) + " Ribu " + terbilang(angka % 1000);
+        else if (angka < 1000000000) return terbilang(Math.floor(angka / 1000000)) + " Juta " + terbilang(angka % 1000000);
+        else return "";
       }
 
-      function renderLaporan(data) {
-        // 1. Update Teks Total
-        const totalRp = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(data.total);
-        document.getElementById('lap-total').innerText = totalRp;
-        document.getElementById('lap-count').innerText = data.count + " Trx";
+      function printLPJ() {
+        const btn = document.getElementById('btnPrint');
+        const text = document.getElementById('btnTextPrint');
+        const load = document.getElementById('loadingPrint');
+        btn.disabled = true; text.classList.add('hidden'); load.classList.remove('hidden');
 
-        // 2. Siapkan Data untuk Grafik & List
-        const colorPalette = ['#003399', '#3377ff', '#ff9900', '#33cc99', '#ffcc66', '#99bbff', '#ffaa33', '#66ddbb', '#0055cc', '#e6f0ff'];
-        
-        // Urutkan kategori dari yang terbesar ke terkecil
-        const sortedKategori = Object.entries(data.kategori).sort((a, b) => b[1] - a[1]);
-        
-        const labels = sortedKategori.map(item => item[0]);
-        const values = sortedKategori.map(item => item[1]);
+        google.script.run.withSuccessHandler((res) => {
+          btn.disabled = false; text.classList.remove('hidden'); load.classList.add('hidden');
+          if(res.status === 'success') { generatePDFLayout(res.data); } 
+          else { alert('Gagal mengambil data LPJ: ' + res.message); }
+        }).withFailureHandler((err) => {
+          btn.disabled = false; text.classList.remove('hidden'); load.classList.add('hidden');
+          alert('System Error: ' + err);
+        }).getLPJData();
+      }
 
-        // 3. Render Grafik Donat
-        const ctx = document.getElementById('laporanChart').getContext('2d');
-        if (myChart) myChart.destroy();
-        myChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: labels,
-            datasets: [{
-              data: values,
-              backgroundColor: colorPalette.slice(0, labels.length),
-              borderWidth: 2,
-              borderColor: '#ffffff'
-            }]
-          },
-          options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10, family: 'Inter' } } } }
-          }
-        });
-
-        // 4. Render Rincian List Kategori
-        const listKategoriEl = document.getElementById('laporan-kategori-list');
-        let htmlList = `<p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2 mt-2 pl-1">Rincian Per Kategori</p>`;
+      function generatePDFLayout(data) {
+        const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+        const dateObj = new Date();
+        const tahun = dateObj.getFullYear();
+        const bulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const tanggalSekarang = dateObj.getDate() + ' ' + bulanIndo[dateObj.getMonth()] + ' ' + tahun;
         
-        sortedKategori.forEach((item, index) => {
-          const catName = item[0];
-          const catTotal = item[1];
-          const catColor = colorPalette[index % colorPalette.length];
-          const formatTotal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(catTotal);
-          
-          htmlList += `
-            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl border border-gray-100">
-              <div class="flex items-center gap-3">
-                <div class="w-3 h-3 rounded-full shadow-sm" style="background-color: ${catColor};"></div>
-                <span class="text-xs font-bold text-gray-700">${catName}</span>
-              </div>
-              <span class="text-xs font-bold text-[#003399]">${formatTotal}</span>
-            </div>
+        let html = `
+        <html><head><title>Cetak LPJ Keuangan</title>
+        <style>
+             body { font-family: 'Times New Roman', serif; font-size: 14px; padding: 20px; color: #000; }
+             h2 { text-align: center; margin-bottom: 20px; text-transform: uppercase; font-size: 18px; }
+             h3 { text-transform: uppercase; font-size: 15px; margin-top: 30px; border-bottom: 2px solid #000; padding-bottom: 5px; }
+             table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+             th, td { border: 1px solid #000; padding: 6px; text-align: left; }
+             .bg-cat { background-color: #f2f2f2 !important; -webkit-print-color-adjust: exact; }
+             .highlight-total { font-weight: bold; background-color: #e6f0ff !important; color: #003399; text-align: right; -webkit-print-color-adjust: exact; }
+             .cat-title { font-weight: bold; font-size: 14px; text-transform: uppercase; }
+             .summary-table td { border: none !important; font-size: 16px; padding: 4px 0; }
+             .sign-table td { border: none !important; text-align: center; vertical-align: bottom; }
+        </style></head>
+        <body>
+          <h2>LPJ KEUANGAN TPQ AL-MAIDAH<br>TAHUN ${tahun}</h2>
+          <table class="summary-table" style="margin-bottom: 30px; margin-top: 30px;">
+             <tr><td width="30%"><b>Total Pemasukan</b></td><td width="2%">:</td><td width="68%"><b>${formatRp(data.totalPemasukan)}</b></td></tr>
+             <tr><td><b>Total Pengeluaran</b></td><td>:</td><td><b>${formatRp(data.totalPengeluaran)}</b></td></tr>
+             <tr><td><b>Saldo Akhir</b></td><td>:</td><td style="color: ${data.saldo < 0 ? 'red' : 'green'};"><b>${formatRp(data.saldo)}</b></td></tr>
+             <tr><td colspan="3" style="font-style: italic; padding-top: 10px;">Terbilang: ${terbilang(data.saldo)} Rupiah</td></tr>
+          </table>
+          <h3>Rincian Pengeluaran</h3>
+        `;
+
+        for (const [kategori, info] of Object.entries(data.grouped)) {
+          html += `
+          <table><tr class="bg-cat"><td colspan="3" class="cat-title">${kategori}</td><td class="highlight-total">${formatRp(info.total)}</td></tr>
+             <tr><th width="15%" style="text-align: center;">Tanggal</th><th width="45%">Keterangan</th><th width="15%" style="text-align: center;">Satuan</th><th width="25%" style="text-align: center;">Nominal</th></tr>
           `;
-        });
-        listKategoriEl.innerHTML = htmlList;
+          info.items.forEach(item => {
+             html += `<tr><td style="text-align: center;">${item.tanggal}</td><td>${item.keterangan}</td><td style="text-align: center;">${item.qty} ${item.satuan}</td><td style="text-align: right;">${formatRp(item.nominal)}</td></tr>`;
+          });
+          html += `</table>`;
+        }
+
+        html += `
+          <div style="text-align: right; margin-top: 40px; margin-right: 5%; font-size: 15px;">Karangsono, ${tanggalSekarang}</div><br>
+          <div style="width: 100%; text-align: center; margin-top: 10px;">
+             <div style="margin-bottom: 20px;">
+                 <p style="margin: 0;">Mengetahui,</p><br><br>
+                 <p style="margin: 0; margin-bottom: 70px;">Penanggung Jawab Kegiatan</p>
+                 <p style="margin: 0; font-weight: bold; text-decoration: underline;">${data.struktur.pj}</p>
+             </div>
+             <table class="sign-table" style="width: 100%; margin-top: 40px;">
+                 <tr>
+                     <td style="width: 33%;"><p style="margin: 0; margin-bottom: 70px;">Sekretaris</p><p style="margin: 0; font-weight: bold; text-decoration: underline;">${data.struktur.sekretaris}</p></td>
+                     <td style="width: 33%;"><p style="margin: 0; margin-bottom: 70px;">Ketua Panitia</p><p style="margin: 0; font-weight: bold; text-decoration: underline;">${data.struktur.ketua}</p></td>
+                     <td style="width: 33%;"><p style="margin: 0; margin-bottom: 70px;">Bendahara</p><p style="margin: 0; font-weight: bold; text-decoration: underline;">${data.struktur.bendahara}</p></td>
+                 </tr>
+             </table>
+          </div></body></html>`;
+
+        let win = window.open('', '_blank'); win.document.write(html); win.document.close();
+        setTimeout(() => { win.print(); }, 800);
       }
 
       function openModal() { document.getElementById('successModal').classList.remove('hidden'); document.getElementById('successModal').classList.add('flex'); }
